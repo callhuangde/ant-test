@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="test2" basedir="." default="test">
+
+    <property name="src.dir"     value="src"/>
+    <property name="classes.dir" value="classes"/>
+    <property name="dest.dir" value="dest"/>
+
+	<path id="classpath">
+		<pathelement path="${classes.dir}"/>
+	</path>
+
+    <target name="help" description="打印信息">
+		<echo>helop - 打印信息</echo>
+		<echo>compile - 编辑源文件</echo>
+	</target>
+
+    <target name="compile" description="Compiles the Task">
+		<delete dir="${classes.dir}"/>
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" />
+    </target>
+
+  	<target name="run" depends="compile">
+		<java classname="Main" fork="yes" failonerror="true">
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+	
+	<target name="build" depends="compile">
+		<delete dir="${dest.dir}"/>
+		<mkdir dir="${dest.dir}"/>
+		<jar destfile="${dest.dir}/app.jar" basedir="${classes.dir}" includes="**/*.class">
+			<manifest>
+				<attribute name="Main" value="Main"/>
+			</manifest>
+		</jar>  
+	</target>
+	
+	<target name="clean" >
+		<delete dir="${classes}"></delete>
+		<delete dir="${dest}"></delete>
+	</target>
+   
+
+</project>
